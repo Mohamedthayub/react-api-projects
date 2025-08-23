@@ -1,7 +1,28 @@
-import getJoke  from "./getJoke.js";
-export const Jokeid = document.querySelector("#jokeId");
-export const Joke = document.querySelector("#joke");
-const button =  document.querySelector("#btn");
+const jokeText = document.querySelector("#joke");
+const jokeId = document.querySelector("#joke-id");
+const button = document.querySelector("#gen-joke");
 
 
-button.addEventListener("click", getJoke);
+function createJoke(joke,id){
+    jokeText.innerText = joke;
+    jokeId.innerText = `JokeId : ${id}`;
+}
+function getData(){ 
+    fetch("https://official-joke-api.appspot.com/random_joke")
+    .then((res) => {
+        return res.json();
+    })
+    .then((response) => {
+        const id = response.id;
+        const joke = response.setup;
+        createJoke(joke,id);
+        
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+}
+
+button.addEventListener("click",getData);
+
+
